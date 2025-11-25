@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Database Configuration -->
+    <database>
+        <control>
+            <host>localhost</host>
+            <port>3306</port>
+            <database>db_control</database>
+            <user>khanh</user>
+            <password>khanh123!</password>
+        </control>
+        <staging>
+            <host>localhost</host> <port>3306</port>
+            <database>db_staging</database> <user>khanh</user> <password>khanh123!</password>
+        </staging>
+        <warehouse>
+            <host>192.168.67.132</host>
+            <port>3306</port>
+            <database>db_warehouse</database>
+            <user>khanh</user>
+            <password>khanh123!</password>
+        </warehouse>
+        <datamart>
+            <host>192.168.67.132</host>
+            <port>3306</port>
+            <user>khanh</user>
+            <password>khanh123!</password>
+            <database>db_datamart</database>
+        </datamart>
+    </database>
+
+    <!-- Extract Configuration -->
+    <extract>
+        <base_path>/opt/dw/staging/extract</base_path>
+        <driver_path>/opt/dw/staging/extract/drivers/msedgedriver</driver_path>
+        <log_path>/opt/dw/staging/extract/logs</log_path>
+        <raw_data_path>/opt/dw/staging/extract/raw</raw_data_path>
+        <locks_path>/opt/dw/staging/extract/locks</locks_path>
+        
+        <!-- Selenium Settings -->
+        <selenium>
+            <headless>true</headless>
+            <page_load_timeout>30</page_load_timeout>
+            <implicit_wait>10</implicit_wait>
+        </selenium>
+        
+        <!-- Retry Settings -->
+        <retry>
+            <max_attempts>3</max_attempts>
+            <retry_interval>900</retry_interval> <!-- 15 minutes in seconds -->
+        </retry>
+    </extract>
+
+    <!-- Load Configuration (for team members) -->
+    <load>
+        <base_path>/opt/dw/staging/load</base_path>
+    </load>
+
+    <!-- Transform Configuration (for team members) -->
+    <transform>
+        <base_path>/opt/dw/staging/transform</base_path>
+    </transform>
+
+    <!-- Consolidate Configuration (for team members) -->
+    <consolidate>
+        <base_path>/opt/dw/staging/consolidate</base_path>
+    </consolidate>
+
+    <loadtowh>
+        <base_path>/opt/dw/staging/loadtowh</base_path>
+        <dump_path>/opt/dw/staging/loadtowh/ready_to_wh</dump_path>
+    </loadtowh>
+
+    <!-- Warehouse Configuration (for team members) -->
+    <warehouse>
+        <base_path>/opt/dw/warehouse</base_path>
+    </warehouse>
+
+    <!-- General settings -->
+    <settings>
+        <logLevel>INFO</logLevel>
+        <truncateBeforeInsert>true</truncateBeforeInsert>
+    </settings>
+
+    <!-- Data Mart Aggregates -->
+    <aggregates>
+        <table>
+            <name>agg_job_by_company</name>
+            <source>job</source>
+            <groupBy>company_name</groupBy>
+            <metrics>
+                <metric>COUNT(*) AS total_jobs</metric>
+            </metrics>
+        </table>
+
+        <table>
+            <name>agg_job_by_location</name>
+            <source>job</source>
+            <groupBy>location</groupBy>
+            <metrics>
+                <metric>COUNT(*) AS total_jobs</metric>
+            </metrics>
+        </table>
+
+        <table>
+            <name>agg_job_by_salary</name>
+            <source>job</source>
+            <groupBy>salary</groupBy>
+            <metrics>
+                <metric>COUNT(*) AS total_jobs</metric>
+            </metrics>
+        </table>
+
+        <table>
+            <name>agg_job_by_experience</name>
+            <source>job</source>
+            <groupBy>experience_required</groupBy>
+            <metrics>
+                <metric>COUNT(*) AS total_jobs</metric>
+            </metrics>
+        </table>
+
+    </aggregates>
+</configuration>
